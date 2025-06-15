@@ -42,7 +42,7 @@ const Auth = () => {
           {errorMessage}
         </div> : ""
       }
-      <div className='d-flex justify-content-center align-items-center vh-100'>
+      <div className='d-flex justify-content-center align-items-center' style={{height:'90vh'}}>
 
         <div className={`${styles['form-signin']} w-100 m-auto`}>
           <div>
