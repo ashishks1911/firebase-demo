@@ -4,29 +4,47 @@ import { Link } from 'react-router-dom'
 const Header = () => {
   return (
     <div>
-      <nav class="py-2 bg-body-tertiary border-bottom">
-        <div class="container d-flex flex-wrap">
-          <ul class="nav me-auto">
-            <li class="nav-item">
+      <nav className="py-2 bg-body-tertiary border-bottom">
+        <div className="container d-flex flex-wrap">
+          <ul className="nav me-auto">
+            <li className="nav-item">
               <Link
                 to={'/'}
-                class="nav-link link-body-emphasis px-2 active"
+                className="nav-link link-body-emphasis px-2 active"
                 aria-current="page"
               >
                 Home
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                to={'/add'}
+                className="nav-link link-body-emphasis px-2 active"
+                aria-current="page"
+              >
+                Add Item
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to={'/admin'}
+                className="nav-link link-body-emphasis px-2 active"
+                aria-current="page"
+              >
+                Admin
+              </Link>
+            </li>
           </ul>
 
-          <ul class="nav">
+          <ul className="nav">
             {" "}
-            <li class="nav-item">
-              <Link  to={'/login'} class="nav-link link-body-emphasis px-2">
+            <li className="nav-item">
+              <Link  to={'/login'} className="nav-link link-body-emphasis px-2">
                 Login
               </Link>
             </li>{" "}
-            <li class="nav-item">
-              <a href="#" class="nav-link link-body-emphasis px-2">
+            <li className="nav-item">
+              <a href="#" className="nav-link link-body-emphasis px-2">
                 Sign up
               </a>
             </li>{" "}
