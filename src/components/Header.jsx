@@ -1,7 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { auth } from '../config/firebase';
 
 const Header = () => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => setUser(user));
+
+    return () => unsubscribe();
+
+  })
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (er) {
+      console.log(er);
+    }
+  }
+
   return (
     <div>
       <nav className="py-2 bg-body-tertiary border-bottom">
@@ -38,20 +59,24 @@ const Header = () => {
 
           <ul className="nav">
             {" "}
-            <li className="nav-item">
-              <Link  to={'/login'} className="nav-link link-body-emphasis px-2">
-                Login
-              </Link>
-            </li>{" "}
-            <li className="nav-item">
-              <a href="#" className="nav-link link-body-emphasis px-2">
-                Sign up
-              </a>
-            </li>{" "}
+            {
+              user ?
+                <li className="nav-item">
+                  <button onClick={logout} className="nav-link link-body-emphasis px-2">
+                    Logout
+                  </button>
+                </li> :
+                <li className="nav-item">
+                  <Link to={'/login'} className="nav-link link-body-emphasis px-2">
+                    Login
+                  </Link>
+                </li>
+            }
+
           </ul>{" "}
         </div>{" "}
       </nav>
-      
+
     </div>
   )
 }

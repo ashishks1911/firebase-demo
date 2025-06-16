@@ -1,39 +1,38 @@
-import { createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth';
 import React, { useState } from 'react'
 import { auth, googleProvider } from '../../config/firebase';
-import styles from './Auth.module.css'
+import styles from './Login.module.css'
+import { Link, useNavigate } from 'react-router-dom';
 
-const Auth = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const signIn = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, pass);
+      await signInWithEmailAndPassword(auth, email, pass);
+      navigate("/");
     } catch (error) {
       setErrorMessage(error.message);
-      setTimeout(()=> {
+      setTimeout(() => {
         setErrorMessage("");
       }, 5000);
     }
+    
   }
 
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
+      navigate("/");
+      
     } catch (error) {
       console.log(error);
     }
   }
 
-  const logout = async () => {
-    try {
-      await signOut(auth);
-    } catch (er) {
-      console.log(er);
-    }
-  }
 
   return (
     <div className='bg-body-tertiary'>
@@ -42,11 +41,11 @@ const Auth = () => {
           {errorMessage}
         </div> : ""
       }
-      <div className='d-flex justify-content-center align-items-center' style={{height:'90vh'}}>
+      <div className='d-flex justify-content-center align-items-center' style={{ height: '90vh' }}>
 
         <div className={`${styles['form-signin']} w-100 m-auto`}>
           <div>
-            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+            <h1 className="h3 mb-3 fw-normal">Please Log In</h1>
             <div className="form-floating mb-3">
               <input type="email"
                 className="form-control"
@@ -69,7 +68,8 @@ const Auth = () => {
                 Remember me
               </label>
             </div>
-            <button className="btn btn-primary w-100 py-2" onClick={signIn}>Sign in</button>
+            <button className="btn btn-primary w-100 py-2" onClick={signIn}>Log In</button>
+            <p className='text-center mt-1'>New user ? click <Link to={'/signup'}>here</Link> to sign Up</p>
             <button className="btn bg-white w-100 py-2 border mt-2">
               <div className='d-flex justify-content-center' onClick={signInWithGoogle}>
                 <img src="./google.png" alt="" width={25} height={25} /> Sign in with Google
@@ -82,4 +82,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default Login
